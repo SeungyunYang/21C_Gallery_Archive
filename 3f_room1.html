@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+        3F Room 1
+    </title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        img {
+            width: 1440px;
+        }
+        .next {
+            position: absolute;
+            top: 600px;
+            left: 980px;
+            width: 106px;
+            cursor: pointer;
+        }
+        .overlay {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0);
+        }
+        .overlay:hover {
+            cursor: pointer;
+        }
+        .image-container {
+            position: relative;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .popup img {
+            width: 900px;
+        }
+        .click-area {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            bottom: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .close-area {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .popup-2 {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .popup-2 img {
+            width: 900px;
+        }
+        .click-area-2 {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            bottom: 0;
+            right: 0;
+            cursor: pointer;
+        }
+        .close-area-2 {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let audio; 
+
+        function showPopup() {
+            document.querySelector('.popup').style.display = 'block';
+        }
+
+        function playSound() {
+            if (!audio) {
+                audio = new Audio('behind_01.mp3');
+            }
+            audio.play();
+        }
+
+        function closePopup() {
+            document.querySelector('.popup').style.display = 'none';
+            if (audio) {
+                audio.pause(); 
+                audio.currentTime = 0; 
+            }
+        }
+
+        let audio2; 
+
+        function showPopup2() {
+            document.querySelector('.popup-2').style.display = 'block';
+        }
+
+        function playSound2() {
+            if (!audio2) {
+                audio2 = new Audio('behind_02.mp3');
+            }
+            audio2.play();
+        }
+
+        function closePopup2() {
+            document.querySelector('.popup-2').style.display = 'none';
+            if (audio2) {
+                audio2.pause();
+                audio2.currentTime = 0; 
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="image-container">
+        <img src="3f_room1.png" alt="3F Room 1" oncontextmenu="return false;" ondragstart="return false;">
+        <div class="overlay" style="top: 330px; left: 100px; width: 250px; height: 200px;" onclick="showPopup()"></div>
+        <div class="overlay" style="top: 340px; left: 560px; width: 120px; height: 170px;" onclick="showPopup2()"></div>
+    </div>
+    <div class="popup">
+        <img src="art_01.png" alt="Art 01">
+        <div class="click-area" onclick="playSound()"></div>
+        <div class="close-area" onclick="closePopup()"></div>
+    </div>
+    <div class="popup-2">
+        <img src="art_02.png" alt="Art 02">
+        <div class="click-area-2" onclick="playSound2()"></div>
+        <div class="close-area-2" onclick="closePopup2()"></div>
+    </div>
+    <a href="3f_room2.html">
+        <img class="next" src="next.png" alt="Next">
+    </a>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            white-space: nowrap; /* Prevent wrapping of images */
+        }
+
+        .image-container {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .image-container img:first-child {
+            margin-left: 180px;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        img[src="glitch_01.gif"] {
+            width: 500px;
+            height: auto;
+        }
+
+        img[src="glitch_02.gif"] {
+            width: 600px;
+            height: auto;
+        }
+
+        img[src="glitch_03.gif"] {
+            width: 850px;
+            height: auto;
+        }
+
+        img[src="glitch_04.gif"] {
+            width: 470px;
+            height: auto;
+        }
+
+        .exit-icon {
+            margin-left: 160px;
+            width: 400px;
+            height: auto;
+            margin-right: 200px;
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
+        #crack-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0); 
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #crack-overlay img {
+            height: 100vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body onload="resetScrollPosition()">
+    <div class="image-container">
+        <img src="001.png" alt="Image 001">
+        <img src="glitch_01.gif" alt="Glitch 01">
+        <img src="glitch_02.gif" alt="Glitch 02">
+        <img src="002.png" alt="Image 002">
+        <img src="003.png" alt="Image 003">
+        <img src="glitch_03.gif" alt="Glitch 03">
+        <img src="004.png" alt="Image 004">
+        <img src="glitch_04.gif" alt="Glitch 04">
+        <img src="exit_icon.png" alt="Exit Icon" class="exit-icon" onclick="playGlassSound(); showCrackOverlay()">
+    </div>
+    <div id="crack-overlay" onclick="playGlassSound(); handleCrackClick()">
+        <img src="crack.png" alt="Crack Image">
+    </div>
+    <audio id="glass-sound" src="glass_02.wav"></audio>
+    <script>
+        let crackClickCount = 0; // Counter for crack image clicks
+
+        function showCrackOverlay() {
+            const overlay = document.getElementById('crack-overlay');
+            overlay.style.display = 'flex';
+        }
+
+        function handleCrackClick() {
+            crackClickCount++;
+            if (crackClickCount >= 5) {
+                window.location.href = 'ending.html'; // Redirect to ending.html
+            }
+        }
+
+        function playGlassSound() {
+            const audio = document.getElementById('glass-sound');
+            audio.currentTime = 0; // Reset audio to the beginning
+            audio.play().catch(error => {
+                console.error('Audio playback failed:', error);
+            });
+        }
+
+        function resetScrollPosition() {
+            window.scrollTo(0, 0); // Reset horizontal scroll to the leftmost position
+        }
+    </script>
+</body>
+
+</html>

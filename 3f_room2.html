@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        img {
+            width: 1440px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .next {
+            position: absolute;
+            left: 1420px;
+            top: 600px;
+            width: 106px;
+            cursor: pointer;
+            pointer-events: auto; 
+        }
+
+        .next:hover {
+            cursor: pointer;
+        }
+
+        .previous {
+            position: absolute;
+            left: 300px;
+            top: 820px;
+            width: 228px;
+            cursor: pointer;
+            pointer-events: auto; 
+        }
+
+        .previous:hover {
+            cursor: pointer;
+        }
+
+        .square {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0); 
+            box-sizing: border-box; 
+            cursor: pointer; 
+        }
+
+        .square:hover {
+            cursor: pointer; 
+        }
+
+        .square1 {
+            top: calc(600px + 50% - 720px); 
+            left: calc(100px + 50% - 720px); 
+            width: 200px; 
+            height: 300px; 
+        }
+
+        .square2 {
+            top: calc(660px + 50% - 720px); 
+            left: calc(480px + 50% - 720px);
+            width: 200px;
+            height: 150px; 
+        }
+
+        .square3 {
+            top: calc(640px + 50% - 720px); 
+            left: calc(750px + 50% - 720px);
+            width: 160px; 
+            height: 200px; 
+        }
+
+        .square4 {
+            top: calc(640px + 50% - 720px); 
+            left: calc(1000px + 50% - 720px); 
+            width: 180px; 
+            height: 200px; 
+        }
+
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 900px;
+            background-color: transparent; /* Remove background color */
+            text-align: center;
+            box-sizing: border-box; /* Ensure padding and borders are included in dimensions */
+            overflow: hidden; /* Prevent any overflow causing visual artifacts */
+        }
+
+        .popup img {
+            width: 100%;
+        }
+
+        .popup-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .click-area {
+            position: absolute;
+            width: 200px; /* Keep the size unchanged */
+            height: 200px; /* Keep the size unchanged */
+            bottom: 0; /* Align to the bottom of the popup image */
+            right: 0; /* Align to the right of the popup image */
+            transform: translate(0px, 0px); /* Position relative to the bottom-right corner */
+            cursor: pointer;
+        }
+
+        .click-area1 {
+            position: absolute;
+            bottom: 200px; /* 200px up from the bottom-right corner */
+            right: 200px; /* 200px left from the bottom-right corner */
+        }
+
+        .close-area {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="3f_room2.png" alt="3f Room 2">
+    <a href="3f_room3.html">
+        <img src="next.png" alt="Next" class="next">
+    </a>
+    <a href="3f_room1.html">
+        <img src="previous.png" alt="Previous" class="previous">
+    </a>
+    <div class="square square1" onclick="showPopup1()"></div>
+    <div class="square square2" onclick="showPopup2()"></div>
+    <div class="square square3" onclick="showPopup3()"></div>
+    <div class="square square4" onclick="showPopup4()"></div>
+
+    <div class="popup" id="popup1">
+        <img src="art_03.png" alt="Art 03">
+        <div class="click-area" onclick="playSound1()"></div>
+        <div class="close-area" onclick="closePopup1()"></div>
+    </div>
+    <div class="popup" id="popup2">
+        <img src="art_04.png" alt="Art 04">
+        <div class="click-area" onclick="playSound2()"></div>
+        <div class="close-area" onclick="closePopup2()"></div>
+    </div>
+    <div class="popup" id="popup3">
+        <img src="art_05.png" alt="Art 05">
+        <div class="click-area" onclick="playSound3()"></div>
+        <div class="close-area" onclick="closePopup3()"></div>
+    </div>
+    <div class="popup" id="popup4">
+        <img src="art_06.png" alt="Art 06">
+        <div class="click-area" onclick="playSound4()"></div>
+        <div class="close-area" onclick="closePopup4()"></div>
+    </div>
+
+    <div class="popup-overlay" onclick="hidePopup()"></div>
+    <div class="popup" id="popup">
+        <img id="popup-image" src="" alt="Artwork">
+    </div>
+
+    <audio id="paper-sound" src="paper.wav"></audio>
+
+    <script>
+        let audio1, audio2, audio3, audio4;
+
+        function showPopup1() {
+            document.getElementById('popup1').style.display = 'block';
+        }
+
+        function playSound1() {
+            if (!audio1) {
+                audio1 = new Audio('behind_03.mp3');
+            }
+            audio1.currentTime = 0; // Reset audio to start
+            audio1.play(); // Play the sound
+        }
+
+        function closePopup1() {
+            document.getElementById('popup1').style.display = 'none';
+            if (audio1) {
+                audio1.pause();
+                audio1.currentTime = 0;
+            }
+        }
+
+        function showPopup2() {
+            document.getElementById('popup2').style.display = 'block';
+        }
+
+        function playSound2() {
+            if (!audio2) {
+                audio2 = new Audio('behind_04.mp3');
+            }
+            audio2.play();
+        }
+
+        function closePopup2() {
+            document.getElementById('popup2').style.display = 'none';
+            if (audio2) {
+                audio2.pause();
+                audio2.currentTime = 0;
+            }
+        }
+
+        function showPopup3() {
+            document.getElementById('popup3').style.display = 'block';
+        }
+
+        function playSound3() {
+            if (!audio3) {
+                audio3 = new Audio('behind_05.mp3');
+            }
+            audio3.play();
+        }
+
+        function closePopup3() {
+            document.getElementById('popup3').style.display = 'none';
+            if (audio3) {
+                audio3.pause();
+                audio3.currentTime = 0;
+            }
+        }
+
+        function showPopup4() {
+            document.getElementById('popup4').style.display = 'block';
+        }
+
+        function playSound4() {
+            if (!audio4) {
+                audio4 = new Audio('behind_06.mp3');
+            }
+            audio4.play();
+        }
+
+        function closePopup4() {
+            document.getElementById('popup4').style.display = 'none';
+            if (audio4) {
+                audio4.pause();
+                audio4.currentTime = 0;
+            }
+        }
+
+        function showPopup(imageSrc) {
+            document.getElementById('popup-image').src = imageSrc;
+            document.querySelector('.popup').style.display = 'block';
+            document.querySelector('.popup-overlay').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.querySelector('.popup').style.display = 'none';
+            document.querySelector('.popup-overlay').style.display = 'none';
+        }
+
+        function playSound(event) {
+            event.stopPropagation(); // Prevent triggering parent click events
+            const audio = document.getElementById('paper-sound');
+            audio.currentTime = 0; // Reset audio to start
+            audio.play(); // Play the sound once
+        }
+    </script>
+</body>
+
+</html>

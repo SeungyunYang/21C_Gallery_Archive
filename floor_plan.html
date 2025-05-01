@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            background-color: black;
+            background-image: url('bg_noise.png');
+            background-repeat: no-repeat;
+            background-position: top left;
+            background-size: 100vw auto;
+        }
+        .center-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1200px;
+            cursor: pointer;
+        }
+        .fullscreen-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .popup-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 720px;
+            z-index: 1001;
+            display: none;
+            cursor: pointer;
+        }
+        .popup-image:hover {
+            opacity: 0.9;
+        }
+        .right-image {
+            position: fixed;
+            top: 50%;
+            right: 100px;
+            transform: translateY(-50%);
+            width: 100px;
+            display: none;
+            z-index: 1002;
+            cursor: pointer;
+        }
+        .right-image:hover {
+            opacity: 0.8;
+        }
+        .overlay-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: auto;
+            z-index: 1003;
+            display: none;
+        }
+        .popup-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 720px;
+            z-index: 1004;
+            display: none;
+            cursor: pointer;
+        }
+        .go3f-image {
+            position: fixed;
+            bottom: 70px;
+            right: 200px;
+            width: 300px;
+            z-index: 1005;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="construction-sound" src="construction.wav"></audio>
+    <audio id="hammering-sound" src="hammering.wav"></audio>
+    <audio id="paper-sound" src="paper.wav"></audio>
+    <audio id="glass-sound" src="glass_01.wav"></audio>
+    <audio id="bgm-sound" src="bgm.wav"></audio>
+    <img src="1f_before.png" alt="1F Before" class="center-image" id="before-image" onclick="addOverlay()">
+    <img src="1f_click.png" alt="1F Click" class="fullscreen-image" id="fullscreen-image">
+    <img src="1f_popup.png" alt="1F Popup" class="popup-image" id="popup-image" onclick="removeOverlay()">
+    <img src="right.png" alt="Right" class="right-image" id="right-image" onclick="playPaperSound(); changeFloor()">
+    <img src="2f_click.png" alt="2F Click" class="overlay-image" id="overlay-image">
+    <img src="2f_popup.png" alt="2F Popup" class="popup-overlay" id="popup-overlay" onclick="closeSecondFloorOverlay()">
+    <img src="3f_click.png" alt="3F Click" class="fullscreen-image" id="third-floor-overlay">
+    <img src="go3f.png" alt="Go to 3F" class="go3f-image" id="go3f-image" onclick="navigateToRoom()">
+    <script>
+        let currentFloor = 1;
+
+        function addOverlay() {
+            document.getElementById('fullscreen-image').style.display = 'block';
+            document.getElementById('popup-image').style.display = 'block';
+
+            // Play sounds
+            const constructionSound = document.getElementById('construction-sound');
+            const hammeringSound = document.getElementById('hammering-sound');
+            constructionSound.play();
+            hammeringSound.play();
+        }
+
+        function removeOverlay() {
+            document.getElementById('fullscreen-image').style.display = 'none';
+            document.getElementById('popup-image').style.display = 'none';
+            document.getElementById('right-image').style.display = 'block';
+
+            // Stop sounds
+            const constructionSound = document.getElementById('construction-sound');
+            const hammeringSound = document.getElementById('hammering-sound');
+            constructionSound.pause();
+            constructionSound.currentTime = 0;
+            hammeringSound.pause();
+            hammeringSound.currentTime = 0;
+        }
+
+        function playPaperSound() {
+            const paperSound = document.getElementById('paper-sound');
+            paperSound.volume = 1.0; // Set volume to maximum
+            paperSound.play();
+        }
+
+        function changeFloor() {
+            if (currentFloor === 1) {
+                document.getElementById('before-image').src = '2f_before.png';
+                document.getElementById('right-image').style.display = 'none';
+                currentFloor = 2;
+                document.getElementById('before-image').onclick = showSecondFloorOverlay;
+            } else if (currentFloor === 2) {
+                document.getElementById('before-image').src = '3f_before.png';
+                document.getElementById('right-image').style.display = 'none';
+                currentFloor = 3;
+                document.getElementById('before-image').onclick = showThirdFloorOverlay;
+            }
+        }
+
+        function showSecondFloorOverlay() {
+            document.getElementById('overlay-image').style.display = 'block';
+            document.getElementById('popup-overlay').style.display = 'block';
+
+            // Play glass sound
+            const glassSound = document.getElementById('glass-sound');
+            if (glassSound.currentTime === 0 || glassSound.ended) {
+                glassSound.play();
+            }
+        }
+
+        function closeSecondFloorOverlay() {
+            document.getElementById('overlay-image').style.display = 'none';
+            document.getElementById('popup-overlay').style.display = 'none';
+            document.getElementById('right-image').style.display = 'block';
+        }
+
+        function showThirdFloorOverlay() {
+            document.getElementById('third-floor-overlay').style.display = 'block';
+            document.getElementById('go3f-image').style.display = 'block';
+
+            // Play BGM sound
+            const bgmSound = document.getElementById('bgm-sound');
+            bgmSound.play();
+        }
+
+        function navigateToRoom() {
+            window.location.href = '3f_room1.html';
+        }
+    </script>
+</body>
+
+</html>

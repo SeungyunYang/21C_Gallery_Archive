@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            background-color: black;
+        }
+        video {
+            display: block;
+            margin: 0 auto;
+            width: 100vw; /* Fit the video to the window's width */
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <video autoplay muted playsinline id="video">
+        <source src="ending_video.mov" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <audio id="audio" src="ending.wav"></audio>
+    <script>
+        const video = document.getElementById('video');
+        const audio = document.getElementById('audio');
+
+        video.addEventListener('play', () => {
+            audio.play();
+        });
+
+        video.addEventListener('ended', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

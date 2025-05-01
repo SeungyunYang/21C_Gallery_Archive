@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        img {
+            width: 1440px;
+            pointer-events: none;
+            user-select: none;
+        }
+        .previous {
+            position: absolute;
+            left: 300px;
+            top: 820px;
+            width: 228px;
+            cursor: pointer;
+            pointer-events: auto; /* Enable interaction for the previous button */
+        }
+
+        .previous:hover {
+            cursor: pointer;
+        }
+        .exit {
+            position: absolute;
+            left: 670px;
+            top: 650px;
+            width: 97px;
+            pointer-events: auto; /* Enable interaction for the exit button */
+        }
+        .square {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0); /* Set transparency to 0% */
+            box-sizing: border-box;
+            cursor: pointer; /* Make pointer clickable on hover */
+        }
+
+        .square1 {
+            top: calc(600px + 50% - 720px);
+            left: calc(70px + 50% - 720px);
+            width: 180px;
+            height: 300px;
+        }
+
+        .square2 {
+            top: calc(650px + 50% - 720px);
+            left: calc(300px + 50% - 720px);
+            width: 100px;
+            height: 180px;
+        }
+
+        .square3 {
+            top: calc(660px + 50% - 720px);
+            left: calc(760px + 50% - 720px);
+            width: 160px;
+            height: 160px;
+        }
+
+        .square4 {
+            top: calc(620px + 50% - 720px);
+            left: calc(1050px + 50% - 720px);
+            width: 280px;
+            height: 240px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 900px;
+            background-color: transparent;
+            text-align: center;
+        }
+
+        .popup img {
+            width: 100%;
+        }
+
+        .click-area {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            bottom: 0;
+            right: 0;
+            transform: translate(0px, 0px); /* Position relative to the bottom-right corner */
+            cursor: pointer;
+        }
+
+        .close-area {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 0;
+            right: 0;
+            transform: translate(0px, 0px); /* Position relative to the top-right corner */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="3f_room3.png" alt="3f Room 3" oncontextmenu="return false;">
+    <a href="3f_room2.html">
+        <img src="previous.png" alt="Previous" class="previous">
+    </a>
+    <a href="floor_plan_after.html">
+        <img src="exit.png" alt="Exit" class="exit">
+    </a>
+    <div class="square square1" onclick="showArt07()"></div>
+    <div class="square square2" onclick="showArt08()"></div>
+    <div class="square square3" onclick="showArt09()"></div>
+    <div class="square square4" onclick="showArt10()"></div>
+    <div class="popup" id="art07-popup">
+        <img src="art_07.png" alt="Art 07">
+        <div class="click-area" onclick="playBehind07Sound()"></div>
+        <div class="close-area" onclick="hideArt07()"></div>
+    </div>
+    <div class="popup" id="art08-popup">
+        <img src="art_08.png" alt="Art 08">
+        <div class="click-area" onclick="playBehind08Sound()"></div>
+        <div class="close-area" onclick="hideArt08()"></div>
+    </div>
+    <div class="popup" id="art09-popup">
+        <img src="art_09.png" alt="Art 09">
+        <div class="click-area" onclick="playBehind09Sound()"></div> <!-- Updated -->
+        <div class="close-area" onclick="hideArt09()"></div>
+    </div>
+    <div class="popup" id="art10-popup">
+        <img src="art_10.png" alt="Art 10">
+        <div class="click-area" onclick="playBehind10Sound()"></div> <!-- Updated -->
+        <div class="close-area" onclick="hideArt10()"></div>
+    </div>
+    <audio id="behind-07-sound" src="behind_07.mp3"></audio>
+    <audio id="behind-08-sound" src="behind_08.mp3"></audio>
+    <audio id="behind-09-sound" src="behind_09.mp3"></audio> <!-- Added -->
+    <audio id="behind-10-sound" src="behind_10.mp3"></audio> <!-- Added -->
+    <audio id="paper-sound" src="paper.wav"></audio>
+    <script>
+        function showArt07() {
+            document.getElementById('art07-popup').style.display = 'block';
+        }
+
+        function hideArt07() {
+            document.getElementById('art07-popup').style.display = 'none';
+            const audio = document.getElementById('behind-07-sound');
+            audio.pause(); // Pause the sound
+            audio.currentTime = 0; // Reset audio to the start
+        }
+
+        function showArt08() {
+            document.getElementById('art08-popup').style.display = 'block';
+        }
+
+        function hideArt08() {
+            document.getElementById('art08-popup').style.display = 'none';
+            const audio = document.getElementById('behind-08-sound');
+            audio.pause(); // Pause the sound
+            audio.currentTime = 0; // Reset audio to the start
+        }
+
+        function showArt09() {
+            document.getElementById('art09-popup').style.display = 'block';
+        }
+
+        function hideArt09() {
+            document.getElementById('art09-popup').style.display = 'none';
+            const audio = document.getElementById('behind-09-sound'); // Updated
+            audio.pause(); // Pause the sound
+            audio.currentTime = 0; // Reset audio to the start
+        }
+
+        function showArt10() {
+            document.getElementById('art10-popup').style.display = 'block';
+        }
+
+        function hideArt10() {
+            document.getElementById('art10-popup').style.display = 'none';
+            const audio = document.getElementById('behind-10-sound'); // Updated
+            audio.pause(); // Pause the sound
+            audio.currentTime = 0; // Reset audio to the start
+        }
+
+        function playPaperSound() {
+            const audio = document.getElementById('paper-sound');
+            audio.currentTime = 0; // Reset audio to start
+            audio.play(); // Play the sound
+        }
+
+        function playBehind07Sound() {
+            const audio = document.getElementById('behind-07-sound');
+            audio.currentTime = 0; // Reset audio to start
+            audio.play(); // Play the sound
+        }
+
+        function playBehind08Sound() {
+            const audio = document.getElementById('behind-08-sound');
+            audio.currentTime = 0; // Reset audio to start
+            audio.play(); // Play the sound
+        }
+
+        function playBehind09Sound() {
+            const audio = document.getElementById('behind-09-sound'); // Updated
+            audio.currentTime = 0; // Reset audio to start
+            audio.play(); // Play the sound
+        }
+
+        function playBehind10Sound() {
+            const audio = document.getElementById('behind-10-sound'); // Updated
+            audio.currentTime = 0; // Reset audio to start
+            audio.play(); // Play the sound
+        }
+    </script>
+</body>
+
+</html>

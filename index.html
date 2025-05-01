@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        img {
+            width: 1440px;
+            height: auto;
+            position: static;
+        }
+        .circle {
+            width: 60px; /* Adjusted size */
+            height: 60px; /* Adjusted size */
+            border-radius: 50%;
+            background-color: rgba(255, 191, 245, 0.5); /* 60% opacity */
+            border: 3px solid #FFBFF5; /* 100% opacity outline */
+            position: absolute;
+            /* Position relative to the start.png image */
+            left: calc(100% - 400px - 60px / 2); /* 400px left from the right edge */
+            top: calc(100% - 300px - 60px / 2); /* 300px up from the bottom edge */
+            animation: blink 1s infinite; /* Blinking effect */
+        }
+        .circle:hover {
+            cursor: pointer; /* Change pointer on hover */
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        video {
+            pointer-events: none; /* Disable interaction with the video */
+        }
+        .enter-button {
+            display: none;
+            position: absolute;
+            width: 150px; /* Adjusted size */
+            height: auto;
+            top: 700px; /* Positioned 400px from the top */
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer; /* Change cursor on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <img id="main-image" src="start.png" alt="Start Image" width="1920" height="1080" oncontextmenu="return false;" draggable="false">
+    <video id="main-video" src="intro_video.mov" width="1440" height="auto" autoplay playsinline style="display: none;"></video>
+    <div class="circle" onclick="changeToVideo()"></div>
+    <img id="enter-button" class="enter-button" src="enter_button.png" alt="Enter Button" oncontextmenu="return false;" draggable="false">
+    <script>
+        function changeToVideo() {
+            const image = document.getElementById('main-image');
+            const video = document.getElementById('main-video');
+            const circle = document.querySelector('.circle');
+            const enterButton = document.getElementById('enter-button');
+            
+            image.style.display = 'none'; // Hide the image
+            video.style.display = 'block'; // Show the video
+            video.play(); // Ensure the video starts playing
+            circle.style.display = 'none'; // Hide the circle
+
+            // Show the enter button after 30 seconds
+            setTimeout(() => {
+                enterButton.style.display = 'block';
+                enterButton.onclick = () => {
+                    window.location.href = 'floor_plan.html'; // Redirect on click
+                };
+            }, 32000); // 30 seconds in milliseconds
+        }
+
+        function positionCircle() {
+            const image = document.getElementById('main-image');
+            const circle = document.querySelector('.circle');
+
+            const imageRect = image.getBoundingClientRect();
+            const circleSize = 60; // Circle's width and height
+
+            // Calculate the circle's position relative to the image
+            const left = imageRect.right - 390 - circleSize / 2;
+            const top = imageRect.bottom - 330 - circleSize / 2;
+
+            // Apply the calculated position
+            circle.style.left = `${left}px`;
+            circle.style.top = `${top}px`;
+        }
+
+        // Reposition the circle on window resize
+        window.addEventListener('resize', positionCircle);
+
+        // Initial positioning
+        window.addEventListener('load', positionCircle);
+    </script>
+</body>
+
+</html>

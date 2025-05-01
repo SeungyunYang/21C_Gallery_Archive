@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        body {
+            background-color: black;
+            background-image: url('bg_noise.png');
+            background-repeat: no-repeat;
+            background-position: top left;
+            background-size: 100vw auto;
+        }
+        .center-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1200px;
+        }
+        .center-left-image {
+            position: absolute;
+            top: 50%;
+            left: 100px;
+            transform: translateY(-50%);
+            width: 100px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .center-left-image:hover {
+            opacity: 0.8;
+        }
+        .hidden {
+            display: none;
+        }
+        .fullscreen-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            background-color: black;
+            z-index: 1000;
+        }
+        #main-image:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="3f_after.png" alt="3F After" class="center-image" id="main-image">
+    <img src="left.png" alt="Left" class="center-left-image" id="left-image" onclick="handleClick()">
+    <video id="fullscreen-video" class="hidden fullscreen-video" autoplay muted></video>
+
+    <script>
+        function handleClick() {
+            const mainImage = document.getElementById('main-image');
+            const leftImage = document.getElementById('left-image');
+            
+            // Play paper.wav sound
+            const audio = new Audio('paper.wav');
+            audio.play();
+
+            mainImage.src = '1f_after.png';
+            leftImage.classList.add('hidden');
+
+            mainImage.onclick = () => {
+                const video = document.getElementById('fullscreen-video');
+                video.src = 'expand_video.mov';
+                video.classList.remove('hidden');
+                video.play();
+
+                // Play expand.wav in a loop after 0.3 seconds
+                let expandAudio;
+                let stopExpandAudioTimeout;
+                setTimeout(() => {
+                    expandAudio = new Audio('expand.wav');
+                    expandAudio.loop = true;
+                    expandAudio.play();
+
+                    // Schedule stopping expand.wav 2 seconds before video ends
+                    stopExpandAudioTimeout = setTimeout(() => {
+                        if (expandAudio) {
+                            expandAudio.pause();
+                            expandAudio.currentTime = 0;
+                        }
+                    }, (video.duration - 2.5) * 1000);
+                }, 300);
+
+                video.onended = () => {
+                    video.classList.add('hidden');
+                    video.src = ''; // Clear the video source
+
+                    // Stop expand.wav immediately if still playing
+                    if (expandAudio) {
+                        expandAudio.pause();
+                        expandAudio.currentTime = 0;
+                    }
+
+                    // Clear the timeout to avoid unnecessary execution
+                    if (stopExpandAudioTimeout) {
+                        clearTimeout(stopExpandAudioTimeout);
+                    }
+
+                    // Play paper.wav once after video ends
+                    const endAudio = new Audio('paper.wav');
+                    endAudio.play();
+
+                    mainImage.src = '2f_after.png'; // Change to 2f_after.png
+
+                    mainImage.onclick = () => {
+                        window.location.href = 'restored.html'; // Navigate to restored.html
+                    };
+                };
+            };
+        }
+    </script>
+</body>
+
+</html>
